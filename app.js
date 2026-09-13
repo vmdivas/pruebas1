@@ -213,6 +213,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirInfoTecnicaLaptopsAlta8030028191()) cambio = true;
   if (corregirUbicacionLaptopsSinAsignarAlta8030028191()) cambio = true;
   if (corregirTamanoDiscoLaptopsAlta8030028191()) cambio = true;
+  if (corregirFormatoEmpresaLaptopsAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -612,6 +613,28 @@ function corregirTamanoDiscoLaptopsAlta8030028191() {
   equipos.forEach((e) => {
     if (!(e.id || "").startsWith("alta-8030028191-") || e.tipoEquipo !== "Notebook" || e.tamanoDisco) return;
     e.tamanoDisco = "512";
+    e.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(e);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// Empresa en mayúscula + ", S.A." en las 30 laptops del alta del contrato
+// Lenovo 8030028191 (el usuario pidió ese formato exacto, ej. "TERTER,
+// S.A." en vez de "Terter"). Ya estaban publicadas con el formato viejo, se
+// fuerza y se vuelve a sincronizar. Solo convierte los valores exactos que
+// se habían guardado antes — si el usuario ya lo editó a mano a otra cosa,
+// no lo toca.
+const EMPRESAS_MAYUSCULA_SA_ALTA_8030028191 = { Terter: "TERTER, S.A.", Lizitex: "LIZITEX, S.A.", Planisalaris: "PLANISALARIS, S.A.", "Plani Ya, S.A.": "PLANI YA, S.A.", Breemer: "BREEMER, S.A.", "Energia Inmediata": "ENERGIA INMEDIATA, S.A.", "Personas y Servicios": "PERSONAS Y SERVICIOS, S.A." };
+
+function corregirFormatoEmpresaLaptopsAlta8030028191() {
+  let cambio = false;
+  equipos.forEach((e) => {
+    if (!(e.id || "").startsWith("alta-8030028191-") || e.tipoEquipo !== "Notebook") return;
+    const nuevo = EMPRESAS_MAYUSCULA_SA_ALTA_8030028191[e.empresa];
+    if (!nuevo) return;
+    e.empresa = nuevo;
     e.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(e);
     cambio = true;

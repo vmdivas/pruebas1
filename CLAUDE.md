@@ -213,9 +213,11 @@ próxima entrega de equipos**:
   hojas `textil`/`Resto de empresas`/`RIOL`, columnas Nombre/Posición/Número ID (DPI)/Sociedad):
   36 de 39 nombres reales del contrato se identificaron con DPI confirmado (algunos por nombre
   exacto, otros solo se pudieron desambiguar comparando el Puesto del Excel de Lenovo contra la
-  Posición del padrón cuando había varias personas con el mismo nombre). Empresa se normalizó a
-  la convención ya usada en la app (ej. `"Terter, S.A."` → `"Terter"`, `"PLANISALARIS, S.A."` →
-  `"Planisalaris"`) en vez de copiar el texto legal completo del padrón.
+  Posición del padrón cuando había varias personas con el mismo nombre). Empresa se normalizó
+  primero a la convención que ya usaba la app (ej. `"Terter, S.A."` → `"Terter"`), pero el
+  usuario luego pidió el formato contrario para este contrato — **MAYÚSCULA + ", S.A."**
+  (ej. `"TERTER, S.A."`) — ver corrección más abajo (`corregirFormatoEmpresaLaptopsAlta8030028191`).
+  Para la próxima alta, usar directo ese formato en vez de la convención vieja del resto de la app.
 - **4 personas quedaron pendientes** (sin DPI, `comentarios` marca "pendiente confirmar
   identidad/DPI"): Jose Jimenez (3 candidatos en el padrón, ninguno con el Puesto exacto del
   Excel — no se adivinó), y Rolman Ivan Urizar / Mario Walter Leiva / Ofelia Bedoya (no
@@ -276,6 +278,11 @@ próxima entrega de equipos**:
     solo limpia si sigue siendo exactamente "Bodega".
   - **"Tamaño Disco (GB)" = 512 en las 30 laptops**: mismo modelo/configuración de fábrica.
     Mismo patrón: `corregirTamanoDiscoLaptopsAlta8030028191()` (solo llena si sigue vacío).
+  - **Empresa en MAYÚSCULA + ", S.A." en las 30 laptops**: el usuario pidió ese formato
+    exacto (ej. "TERTER, S.A." en vez de "Terter"), distinto a la convención vieja del resto
+    de la app. `corregirFormatoEmpresaLaptopsAlta8030028191()` convierte los 7 valores
+    exactos que ya se habían guardado (`EMPRESAS_MAYUSCULA_SA_ALTA_8030028191`); si el
+    usuario ya lo editó a mano a otra cosa, no lo toca.
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
