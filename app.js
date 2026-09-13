@@ -208,6 +208,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirEmpleadoLAPLNV292()) cambio = true;
   if (corregirCodigosEmpleadoAlta8030028191()) cambio = true;
   if (corregirFechaIngresoAlta8030028191()) cambio = true;
+  if (corregirMemoriaRamLaptopsAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -516,6 +517,25 @@ function corregirFechaIngresoAlta8030028191() {
   equipos.forEach((e) => {
     if (!(e.id || "").startsWith("alta-8030028191-") || e.fechaIngresoEquipo) return;
     e.fechaIngresoEquipo = "2026-09-11";
+    e.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(e);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// Memoria RAM de las 30 laptops del alta del contrato Lenovo 8030028191:
+// mismo módulo en las 30 (KINGSTON 16GB DDR5 5600MT/S SODIMM, código
+// KCP556SS8-15), confirmado por el usuario contra la Tarjeta de
+// Responsabilidad impresa. Solo cambia el dato del empleado por equipo, la
+// RAM es igual en todas. Ya estaban publicadas sin este dato, se fuerza y
+// se vuelve a sincronizar.
+function corregirMemoriaRamLaptopsAlta8030028191() {
+  let cambio = false;
+  equipos.forEach((e) => {
+    if (!(e.id || "").startsWith("alta-8030028191-") || e.tipoEquipo !== "Notebook" || e.memoriaDescripcion) return;
+    e.memoriaDescripcion = "KINGSTON 16GB DDR5 5600MT/S SODIMM";
+    e.codigoRam = "KCP556SS8-15";
     e.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(e);
     cambio = true;

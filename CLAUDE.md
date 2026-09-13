@@ -256,6 +256,10 @@ próxima entrega de equipos**:
     de Tecnoelec, coincide con la Fecha Inicio del contrato). Mismo patrón de corrección
     forzada: `corregirFechaIngresoAlta8030028191()` recorre todos los `id` con prefijo
     `alta-8030028191-` y llena `fechaIngresoEquipo` si sigue vacío, re-sincronizando cada uno.
+  - **Memoria RAM igual en las 30 laptops**: `memoriaDescripcion` = "KINGSTON 16GB DDR5
+    5600MT/S SODIMM", `codigoRam` = "KCP556SS8-15" (confirmado por el usuario contra la
+    Tarjeta de Responsabilidad impresa de una de ellas — mismo módulo en todas, solo cambia
+    el dato del empleado). Mismo patrón: `corregirMemoriaRamLaptopsAlta8030028191()`.
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
