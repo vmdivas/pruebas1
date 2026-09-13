@@ -265,6 +265,11 @@ próxima entrega de equipos**:
     en blanco. `corregirNumeroInventarioLaptopsAlta8030028191()` solo lo limpia si el valor
     sigue siendo exactamente esa Placa original (`PLACAS_ORIGINALES_LAPTOPS_ALTA_8030028191`);
     si ya se editó a mano por el activo fijo real, no lo toca.
+  - **Procesador/Memoria/Versión de SO iguales en las 30 laptops**: `procesador` = "INTEL CORE
+    ULTRA 5 22", `memoria` = "32 Gb", `soVersion` = "64 bits - 25H2" — mismo modelo, misma
+    configuración de fábrica, confirmado por el usuario contra la ficha de una de ellas. Mismo
+    patrón: `corregirInfoTecnicaLaptopsAlta8030028191()` (solo llena si `procesador` sigue
+    vacío, para no pisar ediciones manuales).
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de

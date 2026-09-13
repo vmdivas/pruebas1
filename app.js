@@ -210,6 +210,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirFechaIngresoAlta8030028191()) cambio = true;
   if (corregirMemoriaRamLaptopsAlta8030028191()) cambio = true;
   if (corregirNumeroInventarioLaptopsAlta8030028191()) cambio = true;
+  if (corregirInfoTecnicaLaptopsAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -560,6 +561,24 @@ function corregirNumeroInventarioLaptopsAlta8030028191() {
     equipo.numeroInventario = "";
     equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(equipo);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// Procesador/Memoria/Versión de SO iguales en las 30 laptops del alta del
+// contrato Lenovo 8030028191 (mismo modelo, misma configuración de fábrica),
+// confirmado por el usuario contra la ficha de una de ellas. Ya estaban
+// publicadas sin este dato, se fuerza y se vuelve a sincronizar.
+function corregirInfoTecnicaLaptopsAlta8030028191() {
+  let cambio = false;
+  equipos.forEach((e) => {
+    if (!(e.id || "").startsWith("alta-8030028191-") || e.tipoEquipo !== "Notebook" || e.procesador) return;
+    e.procesador = "INTEL CORE ULTRA 5 22";
+    e.memoria = "32 Gb";
+    e.soVersion = "64 bits - 25H2";
+    e.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(e);
     cambio = true;
   });
   return cambio;
