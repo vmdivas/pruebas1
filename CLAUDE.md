@@ -56,6 +56,20 @@ El firmware/BIOS **varía por unidad física** (no por modelo/lote, a diferencia
 Procesador/Memoria/Disco de fábrica) — nunca aplicar un mismo valor en bloque a varios equipos
 sin confirmar antes que de verdad comparten la misma versión.
 
+### Autocompletado nativo del navegador pisando datos al guardar el modal de equipo
+El usuario reportó que, al editar un equipo, Chrome mostraba su propio popup de
+"Información guardada" (autofill nativo, ej. sugiriendo una IP/dominio de otro equipo ya
+guardado) y al usarlo (o incluso sin usarlo, por su heurística de "rellenar campos
+relacionados") terminaba pisando otros campos del formulario con datos viejos de otro equipo.
+Esto es autocompletado **del navegador**, distinto de las sugerencias propias del sistema (los
+`<datalist>` con valores ya usados, que sí se querían conservar). Fix: se agregó
+`autocomplete="off"` al `<form id="formEquipo">` y a los ~42 `<input>` de ese formulario que no
+lo tenían (`index.html`, form "Editar equipo") — esto apaga el autofill nativo de Chrome sin
+afectar los atributos `list="dl-..."` de cada campo, así que el desplegable propio de
+sugerencias sigue funcionando exactamente igual. Si aparece el mismo problema en otro
+formulario del sistema (impresoras, mantenimiento, etc.), aplicar el mismo patrón:
+`autocomplete="off"` en el `<form>` y en cada `<input>` de texto que no lo tenga ya.
+
 ### Puente automático Agente → perfil manual del equipo (SO Versión / Núcleo / Serial)
 A diferencia del Firmware (que solo se ve en la vista del agente), para "SO - Versión" /
 "SO - Versión del núcleo" / "SO - Número de serial" del **modal de editar equipo**

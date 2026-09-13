@@ -726,70 +726,70 @@
         <button id="btnCerrarModal" class="btn-close">&times;</button>
       </div>
     </div>
-    <form id="formEquipo" class="modal-body">
-      <input type="hidden" id="id">
+    <form id="formEquipo" class="modal-body" autocomplete="off">
+      <input autocomplete="off" type="hidden" id="id">
 
       <div class="glpi-grid">
         <div class="glpi-col">
           <div class="glpi-row">
             <label for="nombreRed">Nombre en Red</label>
-            <input type="text" id="nombreRed" list="dl-nombreRedEquipo" required>
+            <input autocomplete="off" type="text" id="nombreRed" list="dl-nombreRedEquipo" required>
             <datalist id="dl-nombreRedEquipo"></datalist>
           </div>
           <p id="nombreRedAviso" class="acta-estado no-encontrado" style="display:none;"></p>
           <div class="glpi-row">
             <label for="ubicaciones">Ubicaciones <span class="lock">&#128274;</span></label>
-            <input type="text" id="ubicaciones" list="dl-ubicaciones">
+            <input autocomplete="off" type="text" id="ubicaciones" list="dl-ubicaciones">
             <datalist id="dl-ubicaciones"></datalist>
           </div>
           <div class="glpi-row">
             <label for="entidad">Entidad</label>
-            <input type="text" id="entidad" value="Root Entity">
+            <input autocomplete="off" type="text" id="entidad" value="Root Entity">
           </div>
           <div class="glpi-row">
             <label for="empresa">Empresa <span class="lock">&#128274;</span></label>
-            <input type="text" id="empresa" list="dl-empresa" required>
+            <input autocomplete="off" type="text" id="empresa" list="dl-empresa" required>
             <datalist id="dl-empresa"></datalist>
           </div>
           <div class="glpi-row">
             <label for="nombreEmpleado">Nombre de empleado <span class="lock">&#128274;</span></label>
-            <input type="text" id="nombreEmpleado">
+            <input autocomplete="off" type="text" id="nombreEmpleado">
           </div>
           <div class="glpi-row">
             <label for="puesto">Puesto</label>
-            <input type="text" id="puesto" list="dl-puesto">
+            <input autocomplete="off" type="text" id="puesto" list="dl-puesto">
             <datalist id="dl-puesto"></datalist>
           </div>
           <div class="glpi-row">
             <label for="usuarioDominio">Usuario de Dominio <span class="lock">&#128274;</span></label>
-            <input type="text" id="usuarioDominio" list="dl-usuarioDominio">
+            <input autocomplete="off" type="text" id="usuarioDominio" list="dl-usuarioDominio">
             <datalist id="dl-usuarioDominio"></datalist>
           </div>
           <div class="glpi-row">
             <label for="departamento">Departamento <span class="lock">&#128274;</span></label>
-            <input type="text" id="departamento" list="dl-departamento">
+            <input autocomplete="off" type="text" id="departamento" list="dl-departamento">
             <datalist id="dl-departamento"></datalist>
           </div>
           <div class="glpi-row">
             <label for="unidadNegocio">Unidad de Negocio</label>
-            <input type="text" id="unidadNegocio" list="dl-unidadNegocio">
+            <input autocomplete="off" type="text" id="unidadNegocio" list="dl-unidadNegocio">
             <datalist id="dl-unidadNegocio"></datalist>
           </div>
           <div class="glpi-row">
             <label for="codigoEmpleado">Código de empleado</label>
-            <input type="text" id="codigoEmpleado">
+            <input autocomplete="off" type="text" id="codigoEmpleado">
           </div>
           <div class="glpi-row">
             <label for="fechaIngresoEquipo">Fecha de Ingreso (equipo)</label>
-            <input type="date" id="fechaIngresoEquipo">
+            <input autocomplete="off" type="date" id="fechaIngresoEquipo">
           </div>
           <div class="glpi-row">
             <label for="tipoUsuario">Tipo de Usuario</label>
-            <input type="text" id="tipoUsuario" placeholder="Estándar &gt; Dominio">
+            <input autocomplete="off" type="text" id="tipoUsuario" placeholder="Estándar &gt; Dominio">
           </div>
           <div class="glpi-row">
             <label for="contratos">Contratos</label>
-            <input type="text" id="contratos" list="dl-contratos">
+            <input autocomplete="off" type="text" id="contratos" list="dl-contratos">
             <datalist id="dl-contratos"></datalist>
           </div>
           <div class="glpi-row glpi-row-textarea">
@@ -801,66 +801,66 @@
         <div class="glpi-col">
           <div class="glpi-row">
             <label for="status">Status <span class="lock">&#128274;</span></label>
-            <input type="text" id="status" list="dl-status">
+            <input autocomplete="off" type="text" id="status" list="dl-status">
             <datalist id="dl-status"></datalist>
           </div>
           <div class="glpi-row">
             <label for="tipoEquipo">Tipos de computadores</label>
-            <input type="text" id="tipoEquipo" list="dl-tipoEquipo">
+            <input autocomplete="off" type="text" id="tipoEquipo" list="dl-tipoEquipo">
             <datalist id="dl-tipoEquipo"></datalist>
           </div>
           <div class="glpi-row">
             <label for="fabricante">Fabricantes</label>
-            <input type="text" id="fabricante" list="dl-fabricante">
+            <input autocomplete="off" type="text" id="fabricante" list="dl-fabricante">
             <datalist id="dl-fabricante"></datalist>
           </div>
           <div class="glpi-row">
             <label for="modelo">Modelo</label>
-            <input type="text" id="modelo" list="dl-modelo">
+            <input autocomplete="off" type="text" id="modelo" list="dl-modelo">
             <datalist id="dl-modelo"></datalist>
           </div>
           <div class="glpi-row">
             <label for="numeroSerial">Número de serial</label>
-            <input type="text" id="numeroSerial" list="dl-numeroSerial">
+            <input autocomplete="off" type="text" id="numeroSerial" list="dl-numeroSerial">
             <datalist id="dl-numeroSerial"></datalist>
           </div>
           <div class="glpi-row">
             <label for="numeroInventario">Número de inventario <span class="lock">&#128274;</span></label>
-            <input type="text" id="numeroInventario" list="dl-numeroInventario">
+            <input autocomplete="off" type="text" id="numeroInventario" list="dl-numeroInventario">
             <datalist id="dl-numeroInventario"></datalist>
           </div>
           <div class="glpi-row">
             <label for="correo">Correo</label>
-            <input type="email" id="correo" list="dl-correo">
+            <input autocomplete="off" type="email" id="correo" list="dl-correo">
             <datalist id="dl-correo"></datalist>
           </div>
           <div class="glpi-row">
             <label for="idGlpi">Id de Equipo</label>
             <div class="campo-con-boton">
-              <input type="text" id="idGlpi">
+              <input autocomplete="off" type="text" id="idGlpi">
               <button type="button" id="btnSugerirIdGlpi" class="btn-mini" title="Sugerir siguiente número disponible">Sugerir</button>
             </div>
           </div>
           <div class="glpi-row">
             <label for="uuid">UUID</label>
-            <input type="text" id="uuid">
+            <input autocomplete="off" type="text" id="uuid">
           </div>
           <div class="glpi-row">
             <label for="dpi">DPI / Pasaporte <span class="lock">&#128274;</span></label>
-            <input type="text" id="dpi" list="dl-dpi">
+            <input autocomplete="off" type="text" id="dpi" list="dl-dpi">
             <datalist id="dl-dpi"></datalist>
           </div>
           <div class="glpi-row">
             <label for="ip">IP del equipo</label>
-            <input type="text" id="ip">
+            <input autocomplete="off" type="text" id="ip">
           </div>
           <div class="glpi-row">
             <label for="ipImpresora">IP de impresora</label>
-            <input type="text" id="ipImpresora" placeholder="N/A">
+            <input autocomplete="off" type="text" id="ipImpresora" placeholder="N/A">
           </div>
           <div class="glpi-row">
             <label for="dominio">Dominio</label>
-            <input type="text" id="dominio" list="dl-dominio">
+            <input autocomplete="off" type="text" id="dominio" list="dl-dominio">
             <datalist id="dl-dominio"></datalist>
           </div>
           <div class="glpi-row">
@@ -878,18 +878,18 @@
         <summary>Información técnica adicional</summary>
         <div class="glpi-grid">
           <div class="glpi-col">
-            <div class="glpi-row"><label for="procesador">Procesador</label><input type="text" id="procesador" list="dl-procesador"><datalist id="dl-procesador"></datalist></div>
-            <div class="glpi-row"><label for="memoria">Memoria</label><input type="text" id="memoria" list="dl-memoria"><datalist id="dl-memoria"></datalist></div>
-            <div class="glpi-row"><label for="memoriaDescripcion">Descripción RAM adicional (Tarjeta)</label><input type="text" id="memoriaDescripcion" list="dl-memoriaDescripcion" placeholder="Ej: Kingston 32GB DDR5 SDRAM MEMORY MODULE"><datalist id="dl-memoriaDescripcion"></datalist></div>
-            <div class="glpi-row"><label for="tipoDisco">Tipo de disco duro</label><input type="text" id="tipoDisco" list="dl-tipoDisco"><datalist id="dl-tipoDisco"></datalist></div>
-            <div class="glpi-row"><label for="firmwareInventario">Firmware: No. inventario</label><input type="text" id="firmwareInventario" list="dl-firmwareInventario"><datalist id="dl-firmwareInventario"></datalist></div>
+            <div class="glpi-row"><label for="procesador">Procesador</label><input autocomplete="off" type="text" id="procesador" list="dl-procesador"><datalist id="dl-procesador"></datalist></div>
+            <div class="glpi-row"><label for="memoria">Memoria</label><input autocomplete="off" type="text" id="memoria" list="dl-memoria"><datalist id="dl-memoria"></datalist></div>
+            <div class="glpi-row"><label for="memoriaDescripcion">Descripción RAM adicional (Tarjeta)</label><input autocomplete="off" type="text" id="memoriaDescripcion" list="dl-memoriaDescripcion" placeholder="Ej: Kingston 32GB DDR5 SDRAM MEMORY MODULE"><datalist id="dl-memoriaDescripcion"></datalist></div>
+            <div class="glpi-row"><label for="tipoDisco">Tipo de disco duro</label><input autocomplete="off" type="text" id="tipoDisco" list="dl-tipoDisco"><datalist id="dl-tipoDisco"></datalist></div>
+            <div class="glpi-row"><label for="firmwareInventario">Firmware: No. inventario</label><input autocomplete="off" type="text" id="firmwareInventario" list="dl-firmwareInventario"><datalist id="dl-firmwareInventario"></datalist></div>
           </div>
           <div class="glpi-col">
-            <div class="glpi-row"><label for="soVersion">Sistema operativo - Versión</label><input type="text" id="soVersion" list="dl-soVersion"><datalist id="dl-soVersion"></datalist></div>
-            <div class="glpi-row"><label for="soNucleo">SO - Versión del núcleo</label><input type="text" id="soNucleo" list="dl-soNucleo"><datalist id="dl-soNucleo"></datalist></div>
-            <div class="glpi-row"><label for="soSerial">SO - Número de serial</label><input type="text" id="soSerial" list="dl-soSerial"><datalist id="dl-soSerial"></datalist></div>
-            <div class="glpi-row"><label for="subentidades">Subentidades</label><input type="text" id="subentidades" list="dl-subentidades"><datalist id="dl-subentidades"></datalist></div>
-            <div class="glpi-row"><label for="proyecto">Proyecto</label><input type="text" id="proyecto" list="dl-proyecto"><datalist id="dl-proyecto"></datalist></div>
+            <div class="glpi-row"><label for="soVersion">Sistema operativo - Versión</label><input autocomplete="off" type="text" id="soVersion" list="dl-soVersion"><datalist id="dl-soVersion"></datalist></div>
+            <div class="glpi-row"><label for="soNucleo">SO - Versión del núcleo</label><input autocomplete="off" type="text" id="soNucleo" list="dl-soNucleo"><datalist id="dl-soNucleo"></datalist></div>
+            <div class="glpi-row"><label for="soSerial">SO - Número de serial</label><input autocomplete="off" type="text" id="soSerial" list="dl-soSerial"><datalist id="dl-soSerial"></datalist></div>
+            <div class="glpi-row"><label for="subentidades">Subentidades</label><input autocomplete="off" type="text" id="subentidades" list="dl-subentidades"><datalist id="dl-subentidades"></datalist></div>
+            <div class="glpi-row"><label for="proyecto">Proyecto</label><input autocomplete="off" type="text" id="proyecto" list="dl-proyecto"><datalist id="dl-proyecto"></datalist></div>
           </div>
         </div>
       </details>
@@ -906,13 +906,13 @@
                 <div id="monitorAyuda" class="autocomplete-ayuda"></div>
               </div>
             </div>
-            <div class="glpi-row"><label for="numeroInventarioMonitor">No. Inventario Monitor</label><input type="text" id="numeroInventarioMonitor" list="dl-numeroInventarioMonitor" placeholder="N/A"><datalist id="dl-numeroInventarioMonitor"></datalist></div>
-            <div class="glpi-row"><label for="codigoRam">Código RAM adicional</label><input type="text" id="codigoRam" list="dl-codigoRam" placeholder="N/A"><datalist id="dl-codigoRam"></datalist></div>
-            <div class="glpi-row"><label for="tamanoDisco">Tamaño Disco (GB)</label><input type="text" id="tamanoDisco" list="dl-tamanoDisco" placeholder="N/A"><datalist id="dl-tamanoDisco"></datalist></div>
+            <div class="glpi-row"><label for="numeroInventarioMonitor">No. Inventario Monitor</label><input autocomplete="off" type="text" id="numeroInventarioMonitor" list="dl-numeroInventarioMonitor" placeholder="N/A"><datalist id="dl-numeroInventarioMonitor"></datalist></div>
+            <div class="glpi-row"><label for="codigoRam">Código RAM adicional</label><input autocomplete="off" type="text" id="codigoRam" list="dl-codigoRam" placeholder="N/A"><datalist id="dl-codigoRam"></datalist></div>
+            <div class="glpi-row"><label for="tamanoDisco">Tamaño Disco (GB)</label><input autocomplete="off" type="text" id="tamanoDisco" list="dl-tamanoDisco" placeholder="N/A"><datalist id="dl-tamanoDisco"></datalist></div>
           </div>
           <div class="glpi-col">
-            <div class="glpi-row"><label for="nombreDispositivo">Nombre Dispositivo</label><input type="text" id="nombreDispositivo" list="dl-nombreDispositivo" placeholder="N/A"><datalist id="dl-nombreDispositivo"></datalist></div>
-            <div class="glpi-row"><label for="serialDispositivo">Serial Dispositivo</label><input type="text" id="serialDispositivo" list="dl-serialDispositivo" placeholder="N/A"><datalist id="dl-serialDispositivo"></datalist></div>
+            <div class="glpi-row"><label for="nombreDispositivo">Nombre Dispositivo</label><input autocomplete="off" type="text" id="nombreDispositivo" list="dl-nombreDispositivo" placeholder="N/A"><datalist id="dl-nombreDispositivo"></datalist></div>
+            <div class="glpi-row"><label for="serialDispositivo">Serial Dispositivo</label><input autocomplete="off" type="text" id="serialDispositivo" list="dl-serialDispositivo" placeholder="N/A"><datalist id="dl-serialDispositivo"></datalist></div>
           </div>
         </div>
       </details>
