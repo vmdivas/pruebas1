@@ -252,6 +252,10 @@ próxima entrega de equipos**:
     equipo, ya que eran 37 de una sola vez. Mario Walter Leiva (DPI dado directo por el
     usuario, no está en el padrón) y los generic/cuentas compartidas se quedan sin código —
     no aplica.
+  - **Fecha de Ingreso (equipo) fijada para los 48**: `2026-09-11` (fecha real de entrega física
+    de Tecnoelec, coincide con la Fecha Inicio del contrato). Mismo patrón de corrección
+    forzada: `corregirFechaIngresoAlta8030028191()` recorre todos los `id` con prefijo
+    `alta-8030028191-` y llena `fechaIngresoEquipo` si sigue vacío, re-sincronizando cada uno.
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de

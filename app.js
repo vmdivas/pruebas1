@@ -207,6 +207,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirDpiLAPLNV304()) cambio = true;
   if (corregirEmpleadoLAPLNV292()) cambio = true;
   if (corregirCodigosEmpleadoAlta8030028191()) cambio = true;
+  if (corregirFechaIngresoAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -501,6 +502,22 @@ function corregirCodigosEmpleadoAlta8030028191() {
     equipo.codigoEmpleado = codigo;
     equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(equipo);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// Fecha de Ingreso (equipo) del alta del contrato Lenovo 8030028191: es la
+// fecha en que Tecnoelec entregó físicamente los 48 equipos, 11/09/2026 —
+// no se había capturado al momento del alta. Ya estaban publicados y
+// sincronizados sin este dato, así que se fuerza y se vuelve a sincronizar.
+function corregirFechaIngresoAlta8030028191() {
+  let cambio = false;
+  equipos.forEach((e) => {
+    if (!(e.id || "").startsWith("alta-8030028191-") || e.fechaIngresoEquipo) return;
+    e.fechaIngresoEquipo = "2026-09-11";
+    e.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(e);
     cambio = true;
   });
   return cambio;
