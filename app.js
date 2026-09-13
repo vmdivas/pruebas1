@@ -212,6 +212,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirNumeroInventarioLaptopsAlta8030028191()) cambio = true;
   if (corregirInfoTecnicaLaptopsAlta8030028191()) cambio = true;
   if (corregirUbicacionLaptopsSinAsignarAlta8030028191()) cambio = true;
+  if (corregirTamanoDiscoLaptopsAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -598,6 +599,21 @@ function corregirUbicacionLaptopsSinAsignarAlta8030028191() {
     equipo.ubicaciones = "";
     equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(equipo);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// Tamaño de Disco (GB) igual en las 30 laptops del alta del contrato Lenovo
+// 8030028191: 512 GB, mismo modelo/configuración de fábrica. Ya estaban
+// publicadas sin este dato, se fuerza y se vuelve a sincronizar.
+function corregirTamanoDiscoLaptopsAlta8030028191() {
+  let cambio = false;
+  equipos.forEach((e) => {
+    if (!(e.id || "").startsWith("alta-8030028191-") || e.tipoEquipo !== "Notebook" || e.tamanoDisco) return;
+    e.tamanoDisco = "512";
+    e.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(e);
     cambio = true;
   });
   return cambio;

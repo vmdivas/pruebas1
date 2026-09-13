@@ -274,6 +274,8 @@ próxima entrega de equipos**:
     laptops asignadas (nunca se llenó), pero las 2 sin asignar tenían "Bodega" — el usuario
     pidió dejarlas igual de en blanco. `corregirUbicacionLaptopsSinAsignarAlta8030028191()`
     solo limpia si sigue siendo exactamente "Bodega".
+  - **"Tamaño Disco (GB)" = 512 en las 30 laptops**: mismo modelo/configuración de fábrica.
+    Mismo patrón: `corregirTamanoDiscoLaptopsAlta8030028191()` (solo llena si sigue vacío).
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
