@@ -32,6 +32,30 @@ Instala en `C:\ProgramData\AgentInventario` (bin/, config.json, logs/, data/).
 Tarea programada: `AgentInventarioTI`, corre como SYSTEM.
 Equipo de prueba: `LAPLNV250` (usuario `victor.morales`, dominio `GRUPOLTZ`).
 
+### Cómo corre el agente (para explicarlo sin tener que releer el código)
+No se ejecuta a mano: `install-agent-gpo.ps1` (una vez por equipo, o distribuido vía GPO a todo
+el dominio) crea la Tarea Programada `AgentInventarioTI`, corriendo como SYSTEM, disparada según
+`config.json → schedule.frequency` (`"hourly"` = cada hora indefinidamente,
+`"daily"` = una vez al día a `schedule.hour`, `"weekly"` = una vez por semana, día lunes).
+Cada disparo corre el script en segundo plano sin sesión de usuario, recolecta hardware/software/
+red y lo manda a Firestore (`equiposTI_v2`). Para diagnosticar una máquina puntual: `test-agent.ps1`.
+
+### Firmware/BIOS — YA se recolecta y YA se muestra (no falta implementar nada)
+El agente ya lee `Get-CimInstance Win32_BIOS` (`agent-inventario.ps1` ~línea 162-165) y guarda
+`hardware.biosVersion` / `hardware.biosFecha`; se envían bien a Firestore por la serialización
+recursiva (ver bugs #4-#6 abajo). En la web, vista **"Inventario Automático"** → clic en un
+equipo → pestaña **"Hardware"**, ya se muestran como "Versión BIOS" / "Fecha BIOS"
+(`app.js`, función `abrirDetalleEquipoTIv2`). Es decir: el campo "Firmware" de un equipo
+individual **NO** se llena a mano — se completa solo en cuanto el agente corre en esa laptop.
+Si alguna vez se necesita el dato manualmente en una máquina puntual (agente aún no corrido, o
+solo para verificar), comandos en esa laptop:
+- PowerShell: `Get-CimInstance Win32_BIOS | Select-Object Manufacturer, SMBIOSBIOSVersion, ReleaseDate, SerialNumber`
+- CMD: `wmic bios get manufacturer, smbiosbiosversion, releasedate, serialnumber`
+- Gráfico: `Win + R` → `msinfo32` → "Versión/Fecha de BIOS" en Resumen del sistema.
+El firmware/BIOS **varía por unidad física** (no por modelo/lote, a diferencia de
+Procesador/Memoria/Disco de fábrica) — nunca aplicar un mismo valor en bloque a varios equipos
+sin confirmar antes que de verdad comparten la misma versión.
+
 ### Credenciales Firebase (proyecto `inventario-ti-riol`)
 - projectId: `inventario-ti-riol`
 - database/colección Firestore del agente: `equiposTI_v2`
