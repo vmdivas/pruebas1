@@ -206,6 +206,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirEmpleadoLAPLNV315()) cambio = true;
   if (corregirDpiLAPLNV304()) cambio = true;
   if (corregirEmpleadoLAPLNV292()) cambio = true;
+  if (corregirCodigosEmpleadoAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -482,6 +483,27 @@ function corregirEmpleadoLAPLNV292() {
   equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
   sincronizarEquipo(equipo);
   return true;
+}
+
+// Código de empleado (código SAP / Nº pers.) de los 37 equipos del alta del
+// contrato Lenovo 8030028191 que ya tenían DPI confirmado contra el padrón
+// de empleados — se cruzó cada DPI contra la columna "Nº pers." del mismo
+// padrón para completar este dato. Ya se habían publicado y sincronizado
+// sin código, así que se fuerza y se vuelve a sincronizar (mismo patrón que
+// las demás correcciones de esta alta). Se aplica una sola vez por equipo.
+const CODIGOS_EMPLEADO_ALTA_8030028191 = { LAPLNV289: "10002788", LAPLNV290: "10005952", LAPLNV291: "10001243", LAPLNV293: "10000405", LAPLNV294: "10002234", LAPLNV295: "10000681", LAPLNV296: "10000390", LAPLNV298: "10006697", LAPLNV299: "10002210", LAPLNV301: "10001540", LAPLNV302: "10001199", LAPLNV303: "10005100", LAPLNV305: "10004547", LAPLNV306: "10002211", LAPLNV307: "10002286", LAPLNV309: "10000588", LAPLNV310: "10000042", LAPLNV311: "10006727", LAPLNV312: "10001046", LAPLNV313: "10005140", LAPLNV314: "10001966", LAPLNV315: "10004536", PCLNV230: "10004541", PCLNV231: "10004541", PCLNV232: "10004541", PCLNV233: "10002221", PCLNV234: "10000136", PCLNV235: "10000355", PCLNV236: "10005461", PCLNV237: "10002084", PCLNV238: "10006054", PCLNV239: "10002070", PCLNV240: "10001877", PCLNV241: "10005212", PCLNV242: "10001875", PCLNV243: "10002459", PCLNV244: "10000716", PCLNV245: "10002621" };
+
+function corregirCodigosEmpleadoAlta8030028191() {
+  let cambio = false;
+  Object.entries(CODIGOS_EMPLEADO_ALTA_8030028191).forEach(([nombreRed, codigo]) => {
+    const equipo = equipos.find((e) => e.id === `alta-8030028191-${nombreRed}`);
+    if (!equipo || equipo.codigoEmpleado) return;
+    equipo.codigoEmpleado = codigo;
+    equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(equipo);
+    cambio = true;
+  });
+  return cambio;
 }
 
 function sincronizarComentariosCronograma() {

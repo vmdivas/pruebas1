@@ -244,6 +244,14 @@ próxima entrega de equipos**:
     desde la app, la función no vuelve a tocarlo. **Si aparece otra corrección así de un
     registro que ya se publicó y sincronizó**, replicar este mismo patrón en vez de solo
     editar `data.js`.
+  - **Código de empleado (código SAP / Nº pers.) completado para los 37 con DPI confirmado**:
+    se cruzó cada DPI contra la columna "Nº pers." del mismo padrón (`Empleados_activo_sal_13-
+    08-2026.xlsx`) para llenar `codigoEmpleado`. Como ya estaban publicados y sincronizados sin
+    este dato, se agregó `corregirCodigosEmpleadoAlta8030028191()` — un mapa
+    `{nombreRed: codigo}` (`CODIGOS_EMPLEADO_ALTA_8030028191`) en vez de una función por
+    equipo, ya que eran 37 de una sola vez. Mario Walter Leiva (DPI dado directo por el
+    usuario, no está en el padrón) y los generic/cuentas compartidas se quedan sin código —
+    no aplica.
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
