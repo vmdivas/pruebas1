@@ -209,6 +209,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirCodigosEmpleadoAlta8030028191()) cambio = true;
   if (corregirFechaIngresoAlta8030028191()) cambio = true;
   if (corregirMemoriaRamLaptopsAlta8030028191()) cambio = true;
+  if (corregirNumeroInventarioLaptopsAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -538,6 +539,27 @@ function corregirMemoriaRamLaptopsAlta8030028191() {
     e.codigoRam = "KCP556SS8-15";
     e.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(e);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// El usuario pidió vaciar "Número de inventario" en las 30 laptops del alta
+// del contrato Lenovo 8030028191 (ahí se había puesto el # de Placa del
+// Excel de Lenovo, que no es el activo fijo real). Solo se limpia si el
+// valor sigue siendo exactamente ese # de Placa original — si el usuario ya
+// lo cambió a mano por el activo fijo real, no se toca. Ya estaban
+// publicadas con ese dato, se fuerza y se vuelve a sincronizar.
+const PLACAS_ORIGINALES_LAPTOPS_ALTA_8030028191 = { LAPLNV289: "0018770", LAPLNV290: "0018771", LAPLNV291: "0018772", LAPLNV292: "0018773", LAPLNV293: "0018774", LAPLNV294: "0018775", LAPLNV295: "0018776", LAPLNV296: "0018777", LAPLNV297: "0018778", LAPLNV298: "0018779", LAPLNV299: "0018780", LAPLNV300: "0018781", LAPLNV301: "0018782", LAPLNV302: "0018783", LAPLNV303: "0018784", LAPLNV304: "0018785", LAPLNV305: "0018786", LAPLNV306: "0018787", LAPLNV307: "0018788", LAPLNV308: "0018789", LAPLNV309: "0018790", LAPLNV310: "0018791", LAPLNV311: "0018792", LAPLNV312: "0018793", LAPLNV313: "0018794", LAPLNV314: "0018795", LAPLNV315: "0018796", LAPLNV316: "0018797", LAPLNV317: "0018798", LAPLNV318: "0018799" };
+
+function corregirNumeroInventarioLaptopsAlta8030028191() {
+  let cambio = false;
+  Object.entries(PLACAS_ORIGINALES_LAPTOPS_ALTA_8030028191).forEach(([nombreRed, placaOriginal]) => {
+    const equipo = equipos.find((e) => e.id === `alta-8030028191-${nombreRed}`);
+    if (!equipo || equipo.numeroInventario !== placaOriginal) return;
+    equipo.numeroInventario = "";
+    equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(equipo);
     cambio = true;
   });
   return cambio;

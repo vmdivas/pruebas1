@@ -260,6 +260,11 @@ próxima entrega de equipos**:
     5600MT/S SODIMM", `codigoRam` = "KCP556SS8-15" (confirmado por el usuario contra la
     Tarjeta de Responsabilidad impresa de una de ellas — mismo módulo en todas, solo cambia
     el dato del empleado). Mismo patrón: `corregirMemoriaRamLaptopsAlta8030028191()`.
+  - **"Número de inventario" vaciado en las 30 laptops**: ahí se había puesto el # de Placa del
+    Excel de Lenovo (ej. "0018770"), que no es el activo fijo real — el usuario pidió dejarlo
+    en blanco. `corregirNumeroInventarioLaptopsAlta8030028191()` solo lo limpia si el valor
+    sigue siendo exactamente esa Placa original (`PLACAS_ORIGINALES_LAPTOPS_ALTA_8030028191`);
+    si ya se editó a mano por el activo fijo real, no lo toca.
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
