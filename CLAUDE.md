@@ -270,6 +270,10 @@ próxima entrega de equipos**:
     configuración de fábrica, confirmado por el usuario contra la ficha de una de ellas. Mismo
     patrón: `corregirInfoTecnicaLaptopsAlta8030028191()` (solo llena si `procesador` sigue
     vacío, para no pisar ediciones manuales).
+  - **"Ubicaciones" en blanco también en `LAPLNV317`/`318`**: ya estaba en blanco en las 28
+    laptops asignadas (nunca se llenó), pero las 2 sin asignar tenían "Bodega" — el usuario
+    pidió dejarlas igual de en blanco. `corregirUbicacionLaptopsSinAsignarAlta8030028191()`
+    solo limpia si sigue siendo exactamente "Bodega".
 - **Renovación de equipo detectada a tiempo**: 3 de los 18 Desktops (`PCLNV230/231/232`) iban a
   usar cuentas de dominio `atencion.clienteXX` que **ya existían** en el inventario — se validó
   contra la vista Usuarios antes de aplicar y se descubrió que `atencion.cliente01` es de
@@ -284,7 +288,9 @@ próxima entrega de equipos**:
 - **`PCLNV229`** (el 4to "Usuario SLA" original) se dejó **sin tocar**, fuera de esta renovación,
   a pedido explícito del usuario.
 - **2 laptops sin destino** (`LAPLNV317`, `LAPLNV318`): `status: "Nuevo > Sin Asignar"`,
-  `ubicaciones: "Bodega"`, disponibilidad de bodega — no llevan Acta hasta que se asignen.
+  disponibilidad de bodega — no llevan Acta hasta que se asignen. `ubicaciones` originalmente
+  se puso en "Bodega" pero luego el usuario pidió dejarlo en blanco (ver corrección más abajo,
+  `corregirUbicacionLaptopsSinAsignarAlta8030028191`), igual que las demás 28 laptops.
 - **Próximo paso pendiente (fuera de esta tarea)**: cuando se entregue cada equipo físicamente,
   usar "📦 Nuevo Ingreso" con el Nombre en Red — como el equipo ya existe, autocompleta todo
   (empleado, puesto, departamento, modelo, serial, contrato) y solo falta el DPI (si no estaba

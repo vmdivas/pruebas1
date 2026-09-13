@@ -211,6 +211,7 @@ function fusionarContratosDesdeSeed() {
   if (corregirMemoriaRamLaptopsAlta8030028191()) cambio = true;
   if (corregirNumeroInventarioLaptopsAlta8030028191()) cambio = true;
   if (corregirInfoTecnicaLaptopsAlta8030028191()) cambio = true;
+  if (corregirUbicacionLaptopsSinAsignarAlta8030028191()) cambio = true;
 
   if (cambio) guardarDatos();
 }
@@ -579,6 +580,24 @@ function corregirInfoTecnicaLaptopsAlta8030028191() {
     e.soVersion = "64 bits - 25H2";
     e.ultimaModificacion = new Date().toISOString().slice(0, 16);
     sincronizarEquipo(e);
+    cambio = true;
+  });
+  return cambio;
+}
+
+// El usuario pidió dejar "Ubicaciones" en blanco también en LAPLNV317/318
+// (las 2 laptops sin asignar del alta del contrato Lenovo 8030028191, que
+// habían quedado con "Bodega"), igual que ya está en blanco en las 28
+// asignadas. Solo se limpia si sigue siendo exactamente "Bodega" — si el
+// usuario ya lo cambió a mano, no se toca.
+function corregirUbicacionLaptopsSinAsignarAlta8030028191() {
+  let cambio = false;
+  ["LAPLNV317", "LAPLNV318"].forEach((nombreRed) => {
+    const equipo = equipos.find((e) => e.id === `alta-8030028191-${nombreRed}`);
+    if (!equipo || equipo.ubicaciones !== "Bodega") return;
+    equipo.ubicaciones = "";
+    equipo.ultimaModificacion = new Date().toISOString().slice(0, 16);
+    sincronizarEquipo(equipo);
     cambio = true;
   });
   return cambio;
