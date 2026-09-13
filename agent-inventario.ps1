@@ -230,11 +230,22 @@ function Get-ComputerHardware {
         # Sistema Operativo
         try {
             $os = Get-CimInstance Win32_OperatingSystem
+            # "DisplayVersion" (ej. "25H2") no viene en Win32_OperatingSystem, solo en el
+            # registro. Si falla (versiones viejas de Windows sin esa clave), se deja "N/A".
+            $versionDisplay = "N/A"
+            try {
+                $versionDisplay = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction Stop).DisplayVersion
+            }
+            catch {
+                LogWarning "No se pudo obtener DisplayVersion del SO: $_"
+            }
             $hardware.sistemaOperativo = @{
                 nombre = $os.Caption
                 version = $os.Version
+                versionDisplay = $versionDisplay
                 build = $os.BuildNumber
                 arquitectura = $os.OSArchitecture
+                serial = $os.SerialNumber
                 tiempoEncendido = [math]::Round((New-TimeSpan -Start $os.LastBootUpTime).TotalHours, 2)
                 fechaArranque = $os.LastBootUpTime.ToString("yyyy-MM-dd HH:mm:ss")
             }

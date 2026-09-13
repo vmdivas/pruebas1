@@ -56,6 +56,37 @@ El firmware/BIOS **varía por unidad física** (no por modelo/lote, a diferencia
 Procesador/Memoria/Disco de fábrica) — nunca aplicar un mismo valor en bloque a varios equipos
 sin confirmar antes que de verdad comparten la misma versión.
 
+### Puente automático Agente → perfil manual del equipo (SO Versión / Núcleo / Serial)
+A diferencia del Firmware (que solo se ve en la vista del agente), para "SO - Versión" /
+"SO - Versión del núcleo" / "SO - Número de serial" del **modal de editar equipo**
+(`soVersion`/`soNucleo`/`soSerial`, colección `equipos`) sí se construyó un puente real hacia
+lo que recolecta el agente (colección `equiposTI_v2`), porque el usuario lo pidió explícitamente
+("si agregalo, ambas"):
+- **Agente** (`agent-inventario.ps1`, bloque de Sistema Operativo): ahora también recolecta
+  `hardware.sistemaOperativo.serial` (`Win32_OperatingSystem.SerialNumber`, el serial de licencia
+  de Windows — distinto del serial del BIOS/equipo físico que ya se recolectaba) y
+  `versionDisplay` (el "Feature Update", ej. "25H2" — viene del registro
+  `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DisplayVersion`, no de WMI/CIM; si la
+  clave no existe en Windows viejos, queda "N/A"). Se agregaron ambos a la vista "Inventario
+  Automático" → pestaña Sistema Operativo.
+- **Puente** (`app.js`, función `sincronizarSOdesdeAgente`, llamada desde
+  `establecerEquiposTIv2DesdeSync` y desde `establecerEquiposDesdeSync` — para que aplique sin
+  importar qué dato llegue primero): por cada equipo de la colección `equipos`, busca su
+  contraparte en `equiposTIv2Data` (`equipoCoincideConAgente`, matchea por `nombreRed` o por
+  `numeroSerial` contra el serial del BIOS, case-insensitive). Si la encuentra y el agente ya
+  tiene datos de SO, llena **solo los campos que sigan vacíos** (nunca pisa un valor ya
+  capturado a mano, campo por campo): `soVersion` = `"<arquitectura> - <versionDisplay>"` (ej.
+  "64 bits - 25H2", mismo formato que ya se usaba manualmente), `soNucleo` = `so.version` (ej.
+  "10.0.26100.2894"), `soSerial` = `so.serial`. Cada campo llenado sincroniza el equipo a
+  Firestore con `sincronizarEquipo()`.
+- **Importante para el futuro**: si se agrega otra corrección forzada tipo
+  `corregirInfoTecnicaLaptopsAlta8030028191` que también escriba en `soVersion`/`soNucleo`/
+  `soSerial`, su guardia de "ya tiene datos" debe revisar ESOS mismos campos (no un campo
+  relacionado como `procesador`) — de lo contrario puede ejecutarse después de este puente y
+  pisar lo que el agente ya había llenado, o viceversa. Verificado con Playwright: un equipo sin
+  estos 3 campos se llena solo cuando el agente ya tiene el dato de esa laptop; un equipo con
+  `soVersion` ya editado a mano queda intacto aunque el agente tenga datos distintos.
+
 ### Credenciales Firebase (proyecto `inventario-ti-riol`)
 - projectId: `inventario-ti-riol`
 - database/colección Firestore del agente: `equiposTI_v2`

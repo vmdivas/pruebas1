@@ -710,6 +710,7 @@ function establecerEquiposDesdeSync(remotos) {
   corregirEmpresasMalCapturadas();
   corregirTipoEquipoMalClasificado();
   corregirComentariosUsoRiolsa();
+  sincronizarSOdesdeAgente();
   guardarDatos();
   poblarFiltrosYDatalists();
   render();
@@ -1982,6 +1983,52 @@ function obtenerTicketsGarantiaActuales() {
 function establecerEquiposTIv2DesdeSync(remotos) {
   equiposTIv2Data = remotos || [];
   if (typeof vistaEquiposTIv2 !== "undefined") vistaEquiposTIv2.render();
+  sincronizarSOdesdeAgente();
+}
+
+function equipoCoincideConAgente(equipo, agente) {
+  const nombreRed = (equipo.nombreRed || "").trim().toLowerCase();
+  const serial = (equipo.numeroSerial || "").trim().toLowerCase();
+  const nombreAgente = ((agente.computadora || agente.equipoId || "")).trim().toLowerCase();
+  const serialAgente = (((agente.hardware || {}).serialNumber || "")).trim().toLowerCase();
+  if (nombreRed && nombreAgente && nombreRed === nombreAgente) return true;
+  if (serial && serialAgente && serial === serialAgente) return true;
+  return false;
+}
+
+// Puente de solo lectura entre lo que recolecta el Agente de Inventario
+// (coleccion equiposTI_v2) y el perfil manual del equipo (coleccion equipos):
+// si el agente ya identifico Sistema Operativo de un equipo, completa
+// "SO - Versión" / "SO - Versión del núcleo" / "SO - Número de serial" del
+// perfil SOLO si siguen vacíos (nunca pisa un dato ya capturado a mano), y
+// sincroniza el cambio a Firestore. Se llama cada vez que llegan datos nuevos
+// del agente o del propio equipo, para que el puente se aplique en cuanto
+// cualquiera de los dos lados esté disponible, sin importar el orden.
+function sincronizarSOdesdeAgente() {
+  if (!equiposTIv2Data.length || !equipos.length) return;
+  equipos.forEach((equipo) => {
+    if (nonEmpty(equipo.soVersion) && nonEmpty(equipo.soNucleo) && nonEmpty(equipo.soSerial)) return;
+    const agente = equiposTIv2Data.find((a) => equipoCoincideConAgente(equipo, a));
+    const so = agente && agente.hardware ? agente.hardware.sistemaOperativo : null;
+    if (!so) return;
+    let cambio = false;
+    if (!nonEmpty(equipo.soVersion) && nonEmpty(so.arquitectura)) {
+      equipo.soVersion = nonEmpty(so.versionDisplay) && so.versionDisplay !== "N/A" ? `${so.arquitectura} - ${so.versionDisplay}` : so.arquitectura;
+      cambio = true;
+    }
+    if (!nonEmpty(equipo.soNucleo) && nonEmpty(so.version)) {
+      equipo.soNucleo = so.version;
+      cambio = true;
+    }
+    if (!nonEmpty(equipo.soSerial) && nonEmpty(so.serial) && so.serial !== "N/A") {
+      equipo.soSerial = so.serial;
+      cambio = true;
+    }
+    if (cambio) {
+      equipo.ultimaModificacion = new Date().toISOString();
+      sincronizarEquipo(equipo);
+    }
+  });
 }
 
 function establecerTicketsGarantiaDesdeSync(remotos) {
@@ -4309,6 +4356,8 @@ function abrirDetalleEquipoTIv2(item) {
           <div class="glpi-col">
             ${filaDetalleTIv2("Nombre", so.nombre)}
             ${filaDetalleTIv2("Versión", so.version)}
+            ${filaDetalleTIv2("Versión (Feature Update)", so.versionDisplay)}
+            ${filaDetalleTIv2("Número de Serial", so.serial)}
           </div>
           <div class="glpi-col">
             ${filaDetalleTIv2("Build", so.build)}
